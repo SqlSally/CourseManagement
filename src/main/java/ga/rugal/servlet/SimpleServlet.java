@@ -15,6 +15,8 @@
  */
 package ga.rugal.servlet;
 
+import ga.rugal.servlet.dao.StudentDao;
+import ga.rugal.servlet.entity.Student;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -49,25 +51,24 @@ public class SimpleServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
 
-    //StudentDao studentDao = new StudentDao(connection);
     //directly return
 //    PrintWriter out = response.getWriter();
-//    out.println("<html><body>");
-//    out.println("<h1>Student Management</h1>");
-//    out.println("<h2>Please enter student info</h2>");
-//    out.println("<form action='/action_page.php'>");
-//    out.println("ID: <input type ='number' name='ID'><br> value=");
-//    out.println("Name: <input type='text' name='Name'><br>");
-//    out.println("Telephone: <input type='text' name='telephone'><br>");
-//    out.println("<input type=\"button\" onclick=\"alert('Insert successfully!')\" value=\"submit!\">");
-//    out.println("<input type='reset'>");
-//    out.println("</form>");
-//    out.println("</body></html>");
-    // studentDao.insert(new Student(0, "sally", "123456789"));
+//    studentDao.insert(new Student(0, "sally", "123456789"));
     //forward / dispatch
-    request.getRequestDispatcher("another.jsp").forward(request, response);
+    request.getRequestDispatcher("index.html").forward(request, response);
     //redirect
 //   response.sendRedirect("/");
+
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    StudentDao studentDao = new StudentDao(connection);
+    studentDao.insert(new Student(Integer.parseInt(req.getParameter("id")), req.getParameter("name"), req.getParameter("telephone")));
+    req.setAttribute("name", req.getParameter("name"));
+
+    req.getRequestDispatcher("result.jsp").forward(req, resp);
 
   }
 
