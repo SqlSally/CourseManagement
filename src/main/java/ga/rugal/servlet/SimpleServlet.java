@@ -25,13 +25,13 @@ public class SimpleServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+          throws ServletException, IOException {
     //directly return
-    response.getWriter().println("Hello World!");
+//    response.getWriter().println("Hello World!");
     //forward / dispatch
     request.getRequestDispatcher("another.jsp").forward(request, response);
     //redirect
-    response.sendRedirect("/redirect");
+//    response.sendRedirect("/redirect");
   }
 
   @Override
