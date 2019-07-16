@@ -5,7 +5,6 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   
-
   <servlet>
     <servlet-name>simpleServlet</servlet-name>
     <servlet-class>ga.rugal.servlet.SimpleServlet</servlet-class>

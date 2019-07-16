@@ -16,6 +16,11 @@
 package ga.rugal.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,15 +28,47 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SimpleServlet extends HttpServlet {
 
+  private static Connection connection;
+
+  static {
+
+    try {
+      Class.forName("org.postgresql.Driver");
+      String url = "jdbc:postgresql://localhost:5432/postgres";
+      connection = DriverManager.getConnection(url, "sally", "");
+
+    } catch (ClassNotFoundException ex) {
+      Logger.getLogger(SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+      Logger.getLogger(SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+  }
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+
+    //StudentDao studentDao = new StudentDao(connection);
     //directly return
-//    response.getWriter().println("Hello World!");
+//    PrintWriter out = response.getWriter();
+//    out.println("<html><body>");
+//    out.println("<h1>Student Management</h1>");
+//    out.println("<h2>Please enter student info</h2>");
+//    out.println("<form action='/action_page.php'>");
+//    out.println("ID: <input type ='number' name='ID'><br> value=");
+//    out.println("Name: <input type='text' name='Name'><br>");
+//    out.println("Telephone: <input type='text' name='telephone'><br>");
+//    out.println("<input type=\"button\" onclick=\"alert('Insert successfully!')\" value=\"submit!\">");
+//    out.println("<input type='reset'>");
+//    out.println("</form>");
+//    out.println("</body></html>");
+    // studentDao.insert(new Student(0, "sally", "123456789"));
     //forward / dispatch
     request.getRequestDispatcher("another.jsp").forward(request, response);
     //redirect
-//    response.sendRedirect("/redirect");
+//   response.sendRedirect("/");
+
   }
 
   @Override
@@ -43,4 +80,5 @@ public class SimpleServlet extends HttpServlet {
   public void destroy() {
     System.out.println("Servlet " + this.getServletName() + " has stopped");
   }
+
 }
