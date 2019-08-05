@@ -19,17 +19,14 @@ package ga.rugal.servlet.entity;
  *
  * @author sally
  */
-public class Student {
+public class Course {
 
-  public final int sid;
-  public final String name;
-  public final String telephone;
+  public final int cid;
+  public final String course;
 
-  public Student(int sid, String name, String telephone) {
-    this.sid = sid;
-    this.name = name;
-    this.telephone = telephone;
-
+  public Course(int cid, String cname) {
+    this.cid = cid;
+    this.course = cname;
   }
 
 }

@@ -15,7 +15,7 @@
  */
 package ga.rugal.servlet.dao;
 
-import ga.rugal.servlet.entity.Student;
+import ga.rugal.servlet.entity.Course;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,21 +27,18 @@ import java.util.logging.Logger;
  *
  * @author sally
  */
-public class StudentDao {
+public class CourseDao {
 
   private Connection conn;
 
-  public StudentDao(Connection conn) {
+  public CourseDao(Connection conn) {
     this.conn = conn;
   }
 
-  public void insert(Student student) {
+  public void insert(Course course) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("insert into public.student (name, telephone,sid) values (?,?,?)");
-      prepareStatement.setString(1, student.name);
-      prepareStatement.setString(2, student.telephone);
-      prepareStatement.setInt(3, student.sid);
-
+      PreparedStatement prepareStatement = conn.prepareStatement("insert into public.course (cname) values (?,?)");
+      prepareStatement.setString(1, course.course);
       boolean execute = prepareStatement.execute();
 
     } catch (SQLException e) {
@@ -49,13 +46,11 @@ public class StudentDao {
     }
   }
 
-  public void update(Student student) {
+  public void update(Course course) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("update public.student set name = ? , telephone = ?  where sid = ?");
-      prepareStatement.setString(1, student.name);
-      prepareStatement.setString(2, student.telephone);
-      prepareStatement.setInt(3, student.sid);
-      System.out.println(prepareStatement);
+      PreparedStatement prepareStatement = conn.prepareStatement("update public.course set cname = ?  where cid = ?");
+      prepareStatement.setString(1, course.course);
+      prepareStatement.setInt(2, course.cid);
       boolean execute = prepareStatement.execute();
 
     } catch (SQLException e) {
@@ -63,11 +58,10 @@ public class StudentDao {
     }
   }
 
-  public void delete(int sid) {
+  public void delete(int cid) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("delete from public.student where sid = ?");
-      prepareStatement.setInt(1, sid);
-
+      PreparedStatement prepareStatement = conn.prepareStatement("delete from public.course where cid = ?");
+      prepareStatement.setInt(1, cid);
       boolean execute = prepareStatement.execute();
 
     } catch (SQLException e) {
@@ -75,14 +69,14 @@ public class StudentDao {
     }
   }
 
-  public Student select(int sid) {
+  public Course select(int cid) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.student where sid = ?");
-      prepareStatement.setInt(1, sid);
+      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.course where cid = ?");
+      prepareStatement.setInt(1, cid);
 
       ResultSet executeQuery = prepareStatement.executeQuery();
       if (executeQuery.next()) {
-        return new Student(executeQuery.getInt("sid"), executeQuery.getString("name"), executeQuery.getString("telephone"));
+        return new Course(executeQuery.getInt("cid"), executeQuery.getString("cname"));
       }
     } catch (SQLException ex) {
       Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,4 +84,17 @@ public class StudentDao {
     return null;
   }
 
+//  public void select() {
+//    try {
+//      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.course");
+//
+//      ResultSet executeQuery = prepareStatement.executeQuery();
+//      while (executeQuery.next()) {
+//        System.out.println(executeQuery.getInt("cid"));
+//      }
+//
+//    } catch (SQLException ex) {
+//      Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//  }
 }

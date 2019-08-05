@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ga.rugal.servlet;
+package ga.rugal.servlet.controller;
 
 import ga.rugal.servlet.dao.StudentDao;
 import ga.rugal.servlet.entity.Student;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SimpleServlet extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
 
   private static Connection connection;
 
@@ -40,9 +40,9 @@ public class SimpleServlet extends HttpServlet {
       connection = DriverManager.getConnection(url, "sally", "");
 
     } catch (ClassNotFoundException ex) {
-      Logger.getLogger(SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
-      Logger.getLogger(SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
     }
 
   }
@@ -55,20 +55,19 @@ public class SimpleServlet extends HttpServlet {
 //    PrintWriter out = response.getWriter();
 //    studentDao.insert(new Student(0, "sally", "123456789"));
     //forward / dispatch
-    request.getRequestDispatcher("index.html").forward(request, response);
-    //redirect
-//   response.sendRedirect("/");
+    request.getRequestDispatcher("update.jsp").forward(request, response);
 
+//    //redirect
+//   response.sendRedirect("/");
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     StudentDao studentDao = new StudentDao(connection);
-    studentDao.insert(new Student(Integer.parseInt(req.getParameter("id")), req.getParameter("name"), req.getParameter("telephone")));
-    req.setAttribute("name", req.getParameter("name"));
-
-    req.getRequestDispatcher("result.jsp").forward(req, resp);
+    Student student = new Student(Integer.parseInt(req.getParameter("id")), req.getParameter("name"), req.getParameter("telephone"));
+    studentDao.update(student);
+    resp.getWriter().println("Update successfully!");
 
   }
 

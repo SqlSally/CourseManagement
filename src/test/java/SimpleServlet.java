@@ -40,9 +40,9 @@ public class SimpleServlet extends HttpServlet {
       connection = DriverManager.getConnection(url, "sally", "");
 
     } catch (ClassNotFoundException ex) {
-      Logger.getLogger(ga.rugal.servlet.SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(ga.rugal.servlet.controller.SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
-      Logger.getLogger(ga.rugal.servlet.SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(ga.rugal.servlet.controller.SimpleServlet.class.getName()).log(Level.SEVERE, null, ex);
     }
 
   }
