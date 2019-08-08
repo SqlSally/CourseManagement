@@ -57,6 +57,30 @@
     <servlet-class>ga.rugal.servlet.controller.StudentViewCourseServlet</servlet-class>
   </servlet>
   
+    
+  <servlet>
+    <servlet-name>student_delete_course</servlet-name>
+    <servlet-class>ga.rugal.servlet.controller.StudentDeleteCourseServlet</servlet-class>
+  </servlet>
+  
+  
+  <servlet>
+    <servlet-name>teacher_add_course</servlet-name>
+    <servlet-class>ga.rugal.servlet.controller.TeacherAddCourseServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>teacher_view_student</servlet-name>
+    <servlet-class>ga.rugal.servlet.controller.TeacherViewStudentServlet</servlet-class>
+  </servlet>
+  
+    
+  <servlet>
+    <servlet-name>teacher_delete_course</servlet-name>
+    <servlet-class>ga.rugal.servlet.controller.TeacherDeleteCourseServlet</servlet-class>
+  </servlet>
+  
+  
   <servlet-mapping>
     <servlet-name>a</servlet-name>
     <url-pattern>/sally</url-pattern>
@@ -109,6 +133,24 @@
   </servlet-mapping>
 
 
+    <servlet-mapping>
+    <servlet-name>student_delete_course</servlet-name>
+    <url-pattern>/student/delete_course</url-pattern>
+  </servlet-mapping>
 
+    <servlet-mapping>
+    <servlet-name>teacher_add_course</servlet-name>
+    <url-pattern>/teacher/add_course</url-pattern>
+  </servlet-mapping>
+
+    <servlet-mapping>
+    <servlet-name>teacher_view_student</servlet-name>
+    <url-pattern>/teacher/view_student</url-pattern>
+  </servlet-mapping>
+
+    <servlet-mapping>
+    <servlet-name>teacher_delete_course</servlet-name>
+    <url-pattern>/teacher/delete_course</url-pattern>
+  </servlet-mapping>
 
 </web-app>

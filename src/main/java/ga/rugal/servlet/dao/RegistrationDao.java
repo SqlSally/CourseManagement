@@ -66,10 +66,11 @@ public class RegistrationDao {
     }
   }
 
-  public void delete(int rid) {
+  public void delete(int sid, int cid) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("delete from public.registration where rid = ?");
-      prepareStatement.setInt(1, rid);
+      PreparedStatement prepareStatement = conn.prepareStatement("delete from public.registration where sid = ? and cid = ? ");
+      prepareStatement.setInt(1, sid);
+      prepareStatement.setInt(2, cid);
       boolean execute = prepareStatement.execute();
 
     } catch (SQLException e) {
@@ -83,6 +84,24 @@ public class RegistrationDao {
     try {
       PreparedStatement prepareStatement = conn.prepareStatement("select * from public.Registration where sid = ?");
       prepareStatement.setInt(1, sid);
+
+      ResultSet executeQuery = prepareStatement.executeQuery();
+      while (executeQuery.next()) {
+        arrayList.add(new Registration(executeQuery.getInt("rid"), executeQuery.getInt("sid"), executeQuery.getInt("cid"), executeQuery.getInt("score")));
+      }
+      return arrayList;
+    } catch (SQLException ex) {
+      Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
+  }
+
+  public ArrayList<Registration> findByCid(int cid) {
+
+    ArrayList<Registration> arrayList = new ArrayList<>();
+    try {
+      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.Registration where cid = ?");
+      prepareStatement.setInt(1, cid);
 
       ResultSet executeQuery = prepareStatement.executeQuery();
       while (executeQuery.next()) {

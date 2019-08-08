@@ -35,15 +35,18 @@ public class CourseDao {
     this.conn = conn;
   }
 
-  public void insert(Course course) {
+  public Course insert(Course course) {
     try {
-      PreparedStatement prepareStatement = conn.prepareStatement("insert into public.course (cname) values (?,?)");
-      prepareStatement.setString(1, course.course);
+      PreparedStatement prepareStatement = conn.prepareStatement("insert into public.course (cid,cname) values (?,?) ");
+      prepareStatement.setInt(1, course.cid);
+      prepareStatement.setString(2, course.course);
       boolean execute = prepareStatement.execute();
 
+      return new Course(course.cid, course.course);
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    return null;
   }
 
   public void update(Course course) {

@@ -15,10 +15,8 @@
  */
 package ga.rugal.servlet.controller;
 
-/**
- *
- * @author sally
- */
+import ga.rugal.servlet.dao.CourseDao;
+import ga.rugal.servlet.entity.Course;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +28,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginServlet extends HttpServlet {
+/**
+ *
+ * @author sally
+ */
+public class TeacherAddCourseServlet extends HttpServlet {
 
   private static Connection connection;
 
@@ -52,25 +54,22 @@ public class LoginServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+//    request.getSession().setAttribute("id", request.getParameter("id"));
+    request.getRequestDispatcher("teacherAddCourse.jsp").forward(request, response);
 
-    String title = request.getParameter("title");
+  }
 
-    //TODO:skip username and password login
-    request.getSession().setAttribute("id", request.getParameter("id"));
-    request.getSession().setAttribute("password", request.getParameter("password"));
-    request.getSession().setAttribute("title", title);
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    CourseDao courseDao = new CourseDao(connection);
 
-    switch (title) {
-      case "student":
-        request.getRequestDispatcher("student.jsp").forward(request, response);
-        break;
-      case "teacher":
-        request.getRequestDispatcher("teacher.jsp").forward(request, response);
-        break;
-      default:
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
-        break;
+    Course course = new Course(Integer.parseInt(req.getParameter("cid")), req.getParameter("cname"));
+    if (courseDao.insert(course) != null) {
+      resp.getWriter().println("Insert successfully!");
+    } else {
+      resp.getWriter().println("sorry");
     }
+
   }
 
   @Override

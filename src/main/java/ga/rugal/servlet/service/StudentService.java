@@ -56,4 +56,14 @@ public class StudentService {
     return arrayList;
   }
 
+  public String DeleteCourse(int sid, int cid) {
+
+    if (studentDao.select(sid) == null || courseDao.select(cid) == null) {
+      return null;
+    }
+
+    registrationDao.delete(sid, cid);
+    return "Delete Successfully";
+  }
+
 }
