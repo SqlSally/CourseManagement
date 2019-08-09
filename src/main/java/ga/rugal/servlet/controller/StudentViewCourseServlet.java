@@ -60,12 +60,27 @@ public class StudentViewCourseServlet extends HttpServlet {
           throws ServletException, IOException {
 
     StudentService studentService = new StudentService(new StudentDao(connection), new CourseDao(connection), new RegistrationDao(connection));
-
     List<Course> findCourseBySid = studentService.findCourseBySid(Integer.parseInt((String) request.getSession().getAttribute("id")));
-
     request.setAttribute("findCourseBySid", findCourseBySid);
     request.getRequestDispatcher("studentViewCourse.jsp").forward(request, response);
 
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    StudentService studentService = new StudentService(new StudentDao(connection), new CourseDao(connection), new RegistrationDao(connection));
+
+    String[] parameterValues = req.getParameterValues("selectedDeleteCourse");
+    int parseInt = Integer.parseInt((String) req.getSession().getAttribute("id"));
+    int count = 0;
+    for (String i : parameterValues) {
+
+      if (studentService.DeleteCourse(parseInt, Integer.parseInt(i)) != null) {
+        count++;
+      }
+    }
+    resp.getWriter().println("You want to delete " + parameterValues.length + " courses, and successfully removed " + count);
   }
 
   @Override
