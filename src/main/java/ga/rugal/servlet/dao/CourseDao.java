@@ -20,6 +20,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,17 +89,20 @@ public class CourseDao {
     return null;
   }
 
-//  public void select() {
-//    try {
-//      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.course");
-//
-//      ResultSet executeQuery = prepareStatement.executeQuery();
-//      while (executeQuery.next()) {
-//        System.out.println(executeQuery.getInt("cid"));
-//      }
-//
-//    } catch (SQLException ex) {
-//      Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
-//    }
-//  }
+  public List<Course> getAll() {
+    try {
+      ArrayList<Course> arrayList = new ArrayList<>();
+      PreparedStatement prepareStatement = conn.prepareStatement("select * from public.course");
+
+      ResultSet executeQuery = prepareStatement.executeQuery();
+      while (executeQuery.next()) {
+        arrayList.add(new Course(executeQuery.getInt("cid"), executeQuery.getString("cname")));
+      }
+      return arrayList;
+
+    } catch (SQLException ex) {
+      Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
+  }
 }

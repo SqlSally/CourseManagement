@@ -56,7 +56,8 @@ public class StudentSelectCourseServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-//    request.getSession().setAttribute("id", request.getParameter("id"));
+    CourseDao courseDao = new CourseDao(connection);
+    request.setAttribute("allCourses", courseDao.getAll());
     request.getRequestDispatcher("studentSelectCourse.jsp").forward(request, response);
 
   }
@@ -64,13 +65,16 @@ public class StudentSelectCourseServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     StudentService studentService = new StudentService(new StudentDao(connection), new CourseDao(connection), new RegistrationDao(connection));
-    if (studentService.selectCourse(Integer.parseInt((String) req.getSession().getAttribute("id")),
-            Integer.parseInt(req.getParameter("cid"))) != null) {
-      resp.getWriter().println("Insert successfully!");
-    } else {
-      resp.getWriter().println("Sorry!");
-    }
 
+    String[] parameterValues = req.getParameterValues("selectedCourse");
+    int parseInt = Integer.parseInt((String) req.getSession().getAttribute("id"));
+    int count = 0;
+    for (String i : parameterValues) {
+      if (studentService.selectCourse(parseInt, Integer.parseInt(i)) != null) {
+        count++;
+      }
+    }
+    resp.getWriter().println("You have selected " + parameterValues.length + " courses, and successfully enrolled " + count);
   }
 
   @Override
